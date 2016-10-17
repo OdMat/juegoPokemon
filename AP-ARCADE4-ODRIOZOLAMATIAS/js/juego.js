@@ -141,6 +141,9 @@ var juego = {
       		this.moverFichaFilaColumna(ficha,this.espacioVacio.fila,this.espacioVacio.columna);
       		this.guardarEspacioVacio(fila,columna);
       		if(this.enJuego===true){
+		      	var audio = $(".audioMovimiento").get(0);
+		      	audio.currentTime=0;
+		      	audio.play();
 	   			this.movimientos++;
 	   			$("body #container>ul li:last-child p").html("MOV "+this.movimientos);
   			}
@@ -169,6 +172,9 @@ var juego = {
 	        	}
 	      	}
 	    }
+	    var audio = $(".audioVictoria").get(0);
+		audio.currentTime=0;
+		audio.play();
 	    this.enJuego=false;
 	    if(this.pokemon==="squirtle")
 	    	$("#container #juego .ganaste p").html("Vamo a Calmarno");
@@ -191,10 +197,18 @@ var juego = {
 
 $(document).ready(function() {
 	$(function start(){//-----------------inicio
+		volumen = 0.1
+		var vol = $("audio").get(0);
+		vol.volume = volumen;
+		vol = $("audio").get(1);
+		vol.volume = volumen;
+		vol = $("audio").get(2);
+		vol.volume = volumen;
 	})
 //----------------------------------------Botones----------------
 	$(".fire").click(function(){//--------cambia los pokemons y el fondo
 		if(botones){
+			audioBoton();
 			$("body").css("background-color", "#FF6A00");
 		  	juego.pokemon='charmander';
 		  	juego.iniciar();
@@ -202,6 +216,7 @@ $(document).ready(function() {
 	});
 	$(".leaf").click(function(){
 		if(botones){
+			audioBoton();
 			$("body").css("background-color", "#73D63A");
 		  	juego.pokemon='bulbasaur';
 		  	juego.iniciar();
@@ -209,6 +224,7 @@ $(document).ready(function() {
 	});
 	$(".water").click(function(){
 		if(botones){
+			audioBoton();
 			$("body").css("background-color", "#3AC1D6");
 		  	juego.pokemon='squirtle';
 		  	juego.iniciar();
@@ -217,10 +233,12 @@ $(document).ready(function() {
 	$(".restart").click(function(){//--------si se esta en juego reinicia
 		if(botones){
 			if(juego.pokemon!=="")
+				audioBoton();
 		  		juego.iniciar();
 		}
 	});
 	$(".play").click(function(){//--------comienza en un pokemon random
+		audioBoton();
 		var numeroRandom = Math.floor(Math.random() * 3);
     	switch(numeroRandom){
     		case 0:
@@ -269,4 +287,8 @@ function activarBotones(){
 	$(".fire").animate({"opacity": "1"}, 600);
 	$(".restart").animate({"opacity": "1"}, 0);
 }
-
+function audioBoton(){
+	var audio = $(".audioBoton").get(0);
+	audio.currentTime=0;
+	audio.play();
+}
